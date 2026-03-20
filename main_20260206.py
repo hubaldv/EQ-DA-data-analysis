@@ -76,7 +76,10 @@ fig.legend(
         bbox_to_anchor=(0.5, 0.925)
     )
 plt.tight_layout(rect=[0, 0, 1, 0.925])
-plt.savefig('data_logging_20260213/pressure_vs_time_1_5ref.eps', format='eps')
+import os
+if not os.path.exists('figures/pdf_20260213'):
+    os.makedirs('figures/pdf_20260213')
+plt.savefig('figures/pdf_20260213/pressure_vs_time_1_5ref.pdf', format='pdf', transparent=True)
 plt.show()
 
 # Save as eps
@@ -127,5 +130,5 @@ plt.xticks(x, rpms)  # set RPM labels at correct positions
 plt.legend()
 plt.grid(True)
 
-plt.savefig('data_logging_20260213/rms_pressure_vs_rpm.eps', format='eps')
+plt.savefig('figures/pdf_20260213/rms_pressure_vs_rpm.pdf', format='pdf', transparent=True)
 plt.show()
