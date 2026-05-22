@@ -31,8 +31,8 @@ selected = 1
 data_list = {1:  {'name': '1_shot_dosing_250RPM', 'rpm': 250, 'start': 38, 'stop': 95, 'volume': [30, 30, 30, 30]}, 
              2:  {'name': '1_shot_dosing_500RPM', 'rpm': 500, 'start': 35, 'stop': 95, 'volume': [48, 48, 48, 47]}, 
              3:  {'name': '1_shot_dosing_750RPM', 'rpm': 750, 'start': 8, 'stop': 67, 'volume': [64, 64, 64, 64]}, 
-             4:  {'name': '1_shot_dosing_1000RPM', 'rpm': 1000, 'start': 11, 'stop': 71, 'volume': [105, 108, 105, 106]},
-             5:  {'name': '1_shot_dosing_250RPM', 'rpm': 250, 'start': 40, 'stop': 48, 'volume': []}}
+             4:  {'name': '1_shot_dosing_1000RPM', 'rpm': 1000, 'start': 11, 'stop': 71, 'volume': [105, 108, 105, 106]}}
+            #  5:  {'name': '1_shot_dosing_250RPM', 'rpm': 250, 'start': 40, 'stop': 48, 'volume': []}}
 
 data = load_data(f'{data_list[selected]["name"]}', start_s=data_list[selected]['start'], stop_s=data_list[selected]['stop'])
 
@@ -155,7 +155,7 @@ def plot(selected, ax=None, threshold=6):
     # Compute volumes
     print(f"\nComputing volumes for {cfg['rpm']} RPM:")
     volumes = compute_event_volumes(data, event_ranges)
-    # Print standard deviation of volumes
+    # Print mean and standard deviation of volumes
     if len(volumes) > 1:
  
         v_scale = data_list[selected]['volume']
@@ -163,13 +163,14 @@ def plot(selected, ax=None, threshold=6):
             deviation = (vol - v_scale[i]) / v_scale[i] * 100
             print(f"Event {i+1}: Volume = {vol:.2f} ml (Deviation: {deviation:.2f}%)")
 
+        print(f"Mean of VSF and v_scale: {np.mean(volumes):.2f} ml, {np.mean(v_scale):.2f} g")
         print(f"Standard deviation of VSF and v_scale: {np.std(volumes):.2f} ml, {np.std(v_scale):.2f} g")
 
     total_volume = sum(volumes)
 
     return total_volume, volumes
 
-selected = 5
+# selected = 5
 plt.figure(figsize=(12, 6))
 plot(selected)
 plt.title(f"Zoomed in view of flow for {data_list[selected]['rpm']} RPM", fontsize=14, fontweight='bold')
